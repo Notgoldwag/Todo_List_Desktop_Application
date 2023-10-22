@@ -11,10 +11,12 @@ for todo in todos:
     todos[index] = todo.strip("\n")
 
 
-list_box = sg.Listbox(values=todos, key="show_todos", enable_events=True, size=[45,10])
+list_box = sg.Listbox(values=functions.get_todos(), key="show_todos", enable_events=True, size=[45,10])
 edit_button = sg.Button("Edit")
 
-window = sg.Window("Todo List", layout=[[label, input, add],[list_box, edit_button]], font=("Times New Roman", 15))
+complete_button = sg.Button("Complete")
+
+window = sg.Window("Todo List", layout=[[label, input, add],[list_box, edit_button], [complete_button]], font=("Times New Roman", 15))
 
 edit = ""
 
@@ -23,24 +25,33 @@ while True:
     print(1, event)
     print(2, value)
     print(3, value["show_todos"])
-    match event:
-        case "Add":
-            todos = functions.get_todos()
-            todos.append(value["todo"] + "\n")
-            functions.write_todos(todos)
-            window["show_todos"].update(values=todos)
+    if event == "Add":
+        todos = functions.get_todos()
+        todos.append(value["todo"] + "\n")
+        functions.write_todos(todos)
+        window["show_todos"].update(values=todos)
 
-        case sg.WINDOW_CLOSED:
-            break
+    elif event == sg.WINDOW_CLOSED:
+        break
+    elif event == "show_todos":
+        item = value["show_todos"][0]
+        window["todo"].update(value=item.strip("\n"))
 
-        case "Edit":
-            todo_edit = value["show_todos"][0]
-            new_todo = value["todo"] + "\n"
+    elif event == "Edit":
+        todo_edit = value["show_todos"][0]
+        new_todo = value["todo"] + "\n"
 
-            todos = functions.get_todos()
-            index = todos.index(todo_edit)
-            todos[index] = new_todo
+        todos = functions.get_todos()
+        index = todos.index(todo_edit)
+        todos[index] = new_todo
 
-            functions.write_todos(todos)
-            window["show_todos"].update(values=todos)
+        functions.write_todos(todos)
+        window["show_todos"].update(values=todos)
+    elif event == "Complete":
+        finish = value["show_todos"][0]
+        todos = functions.get_todos()
+        todos.remove(finish)
+
+        functions.write_todos(todos)
+        window["show_todos"].update(values=todos)
 window.close()
