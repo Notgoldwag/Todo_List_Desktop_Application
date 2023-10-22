@@ -4,6 +4,7 @@ import PySimpleGUI as sg
 label = sg.Text("Type in a todo")
 input = sg.InputText(tooltip="Enter a todo", key="todo")
 add = sg.Button("Add")
+exit = sg.Button("Exit")
 
 todos = functions.get_todos()
 for todo in todos:
@@ -16,7 +17,7 @@ edit_button = sg.Button("Edit")
 
 complete_button = sg.Button("Complete")
 
-window = sg.Window("Todo List", layout=[[label, input, add],[list_box, edit_button], [complete_button]], font=("Times New Roman", 15))
+window = sg.Window("Todo List", layout=[[label, input, add],[list_box, edit_button], [complete_button, exit]], font=("Times New Roman", 15))
 
 edit = ""
 
@@ -54,4 +55,7 @@ while True:
 
         functions.write_todos(todos)
         window["show_todos"].update(values=todos)
+        window["todo"].update(value="")
+    elif event == "Exit":
+        break
 window.close()
