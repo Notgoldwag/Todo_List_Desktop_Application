@@ -3,8 +3,7 @@ import time
 
 #shows time
 now = time.strftime("%a, %b %d, %Y %H:%M:%S")
-print("The time is: ")
-print(now)
+print("The time is:", now)
 while True:
     print("")
     decision = input("Type add, show, edit, complete or exit: ")
