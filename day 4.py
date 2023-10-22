@@ -1,6 +1,7 @@
 import functions
 import time
 
+#shows time
 now = time.strftime("%a, %b %d, %Y %H:%M:%S")
 print("The time is: ")
 print(now)
