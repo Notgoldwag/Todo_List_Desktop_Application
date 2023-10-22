@@ -1,15 +1,12 @@
 import PySimpleGUI as sg
 
-select = sg.Text("Choose files to compress")
-input1 = sg.InputText(tooltip="Choose files")
-button1 = sg.FilesBrowse("Choose")
+feet = sg.Text("Enter feet:")
+feet_input = sg.Input()
 
-location = sg.Text("Choose destination")
-input2 = sg.InputText(tooltip="Choose location")
-button2 = sg.FolderBrowse("Choose")
+inches = sg.Text("Enter inches: ")
+inches_input = sg.Input()
 
-compressButton = sg.Button("Compress")
-
-window = sg.Window("File Compressor", layout=[[select,input1,button1],[location,input2,button2],[compressButton]])
+convert = sg.Button("Convert")
+window = sg.Window("Height converter", [[feet, feet_input],[inches,inches_input],[convert]])
 window.read()
 window.close()
