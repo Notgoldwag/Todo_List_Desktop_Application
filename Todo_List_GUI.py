@@ -1,13 +1,20 @@
 import functions
 import time
 import PySimpleGUI as sg
+import os
+
+if os.path.exists("todos.txt") == False:
+    with open("todos.txt", "w"):
+        pass
 
 sg.theme("GreenMono")
 
 clock = sg.Text('', key="time")
+test = sg.Text('')
+test = sg.Text('')
 label = sg.Text("Type in a todo")
 input = sg.InputText(tooltip="Enter a todo", key="todo")
-add = sg.Button("Add")
+add = sg.Button("Add", tooltip="Add a todo", key="Add")
 exit = sg.Button("Exit")
 
 todos = functions.get_todos()
@@ -16,12 +23,13 @@ for todo in todos:
     todos[index] = todo.strip("\n")
 
 
-list_box = sg.Listbox(values=functions.get_todos(), key="show_todos", enable_events=True, size=[45,10])
+list_box = sg.Listbox(values=functions.get_todos(), key="show_todos", enable_events=True, size=[65,15])
 edit_button = sg.Button("Edit")
 
-complete_button = sg.Button("Complete")
+complete_button = sg.Button("Complete", tooltip="Complete a todo", key="Complete")
 
-window = sg.Window("Todo List", layout=[[clock],[label, input, add],[list_box, edit_button], [complete_button, exit]], font=("Times New Roman", 15))
+window = sg.Window("Todo List", layout=[[clock],[label, input, add],[list_box, edit_button], [complete_button,exit]],
+                   font=("Times New Roman", 15))
 
 edit = ""
 
@@ -29,6 +37,10 @@ while True:
     event, value = window.read(timeout=1000)
     now = time.strftime("%a, %b %d, %Y %H:%M:%S")
     window["time"].update(value=now)
+    window["Add"].Widget.config(width=10, height = 1)
+    window["Complete"].Widget.config(width=10, height=1)
+
+    #the event takes either the label of the widget or the key of the widget
     if event == "Add":
         todos = functions.get_todos()
         todos.append(value["todo"] + "\n")
